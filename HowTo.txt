@@ -1,0 +1,36 @@
+This document notes how to use RDFPath precompiled binary (Jar) to evaluate RDFPath queries.
+
+
+1. Settings
+Query engine settings are defined in a file named RDFPATH.conf placed in the same folder with the jar.
+The syntax is simple everything is defined as key,value. and comments are rows that start with #. 
+One example of this configuration file is the file named RDFPATH.conf placed in the same folder with this file.
+Settings can also be defined inline, and override the settings from the file they are explained down at query
+evaluation section
+
+
+2. Query Evaluation
+
+Here is explained the syntax how to make use of RDFPath engine:
+
+java -jar RDFPathEngine.jar [CLASS] [-f|-q] [path|Query] [Settings]
+
+To switch between Spark and Impala one has to call different classes of Jar. (Executor.AppSpark for Spark, and Executor.AppImpala for Impala)
+
+The first parameter notes whether the query is given from a file (-f) or as inline string (-q). Based on this the second 
+parameter can be path to file or actual query.
+
+Inline settings are declared as last parameter with the order: Graph ShuffleParttionsNR ExtVP ExecStrategy.
+
+3. Examples
+
+Spark, query given from file /home/file.txt
+
+java -jar RDFPathEngine.jar Executor.AppSpark -f /home/file.txt  
+
+Impala, query given inline: Bob./knows/age
+
+java -jar RDFPathEngine.jar Executor.AppImpala -q Bob./knows/age
+
+
+***NOTE: In order to run the code one should also include atlr4-runtime binary version 4.5
